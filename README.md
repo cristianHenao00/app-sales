@@ -48,6 +48,7 @@ Importante: verifique con `git remote -v` que su repositorio remoto sea el corre
 - En Linux o Mac use `rm -rf .git`, en Windows use `rmdir /S .git` esto eliminará todo lo relacionado a tu repositorio git
 - `git init`  inicializa git en tu proyecto
 - `git remote add origin  https://.../usuario/repositorio.git`
+- `git push u- origin --all` para empujar el repositorio local 
 
 ## Deshacer el último commit
 
