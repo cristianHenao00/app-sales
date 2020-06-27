@@ -3,24 +3,25 @@
 
 import { Prueba } from './prueba.js';
 
+import Helpers from './helpers.js'
+
 document.addEventListener('DOMContentLoaded', event => {
-    let promesa = cargarPagina('#index-header','./resources/views/menu.html');
-    console.log(promesa);
+    let promesa = Helpers.cargarPagina(
+        '#index-header',
+        './resources/views/menu.html'
+    ).then(todoBienHacerAlgo, problemasReportarError);
+    
 });
 
-async function cargarPagina(url) {
-    //return await fetch(url);
+let todoBienHacerAlgo = resultado => console.log(
+    `Menú cargado correctamente. ${resultado}`
+);
 
-    let respuesta = await fetch(url);
-
-    if (respuesta.ok) {
-        let contenido = await respuesta.text();
-        console.error(contenido);
-        return;
-    }
-    throw `error ${respuesta.status} -
-                       ${respuesta.statusText}`;
+let problemasReportarError = error => {
+    console.error(`Houston, tenemos un problema: ${error}`);
 }
+
+
 
 
 
