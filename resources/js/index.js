@@ -9,17 +9,18 @@ document.addEventListener('DOMContentLoaded', event => {
     let promesa = Helpers.cargarPagina(
         '#index-header',
         './resources/views/menu.html'
-    ).then(todoBienHacerAlgo, problemasReportarError);
+    ).then(
+        resultado => console.log(`Menú cargado correctamente. ${resultado}`),
+        error => {
+            console.log(`Houston, tenemos un problema: ${error}`)
+            Helpers.alertar('#index-contenido', 'Problemas al intentar accder al menu principal');
+        }
+    );
     
 });
 
-let todoBienHacerAlgo = resultado => console.log(
-    `Menú cargado correctamente. ${resultado}`
-);
 
-let problemasReportarError = error => {
-    console.error(`Houston, tenemos un problema: ${error}`);
-}
+
 
 
 
