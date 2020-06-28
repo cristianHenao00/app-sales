@@ -22,4 +22,16 @@ export default class Helpers{
         `);
         setTimeout(() => document.querySelector('#alerta').style.display = 'none', 3000);
     }
+    
+    static alertaCompra(elemento, variable, mensaje = '¡Compra Exitosa!'){
+        document.querySelector(elemento).insertAdjacentHTML('beforebegin',
+                        `<div id="alertaCompra" class="bg-orange-100 border-t border-b border-orange-500 text-orange-700 px-4 py-3" role="alert">
+                            <p class="font-bold">${mensaje}</p>
+                            <p class="text-sm">Se añadio ${variable} al carrito de compras</p>
+                        </div>`);
+        setTimeout(() => document.querySelector('#alertaCompra').style.display = 'none', 1000);
+        
+        
+        
+    }
 }
