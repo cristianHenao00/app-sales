@@ -5,58 +5,33 @@ import { Prueba } from './prueba.js';
 
 import Helpers from './helpers.js'
 
-let carritoCompra = [];
-
 document.addEventListener('DOMContentLoaded', event => {
     let promesa = Helpers.cargarPagina(
         '#index-header',
         './resources/views/menu.html'
     ).then(
-        gestionarOpciones
-        
+        gestionarOpciones,
+                
     ).catch(error =>{
-        console.log(`Houston, tenemos un problema: ${error}`)
-            Helpers.alertar('#index-contenido', 
-            'Problemas al intentar accder al menu principal');
+        Helpers.alertar('#index-contenido', 
+            'Problemas al intentar accder al menu principal', error);
     }); 
 
-          
 });
 
 let gestionarOpciones = resultado => {
     let elemento = `#${resultado.id}`; // se asigna '#index-header'
 
+    cargarProductos(elemento);
+    cargarCarrito(elemento);
+    cargarContactenos(elemento);
+    cargarNosotros(elemento);
+    cargarActualizarDatos(elemento);
+    cargarCambiarContraseña(elemento);
+};
+
+let cargarProductos = elemento => {
     let referencia = document.querySelector(
-        `${elemento} a[id='menu-contactenos']`
-    );
-
-    referencia.addEventListener('click', (event) => {
-        event.preventDefault();
-        Helpers.cargarPagina('#index-contenido',
-                             './resources/views/contactenos.html')
-            .catch(error => {
-                console.error(`Houston, tenemos un problema: ${error}`)
-                Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a contáctenos');
-            })
-    });
-
-    referencia = document.querySelector(
-        `${elemento} a[id='menu-nosotros']`
-    );
-    
-    referencia.addEventListener('click', (event) => {
-        event.preventDefault();
-        Helpers.cargarPagina('#index-contenido',
-                             './resources/views/nosotros.html')
-            .catch(error => {
-                console.error(`Houston, tenemos un problema: ${error}`)
-                Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a nosotros');
-            })
-    });
-
-    referencia = document.querySelector(
         `${elemento} a[id='menu-productos']`
     );
     
@@ -66,40 +41,15 @@ let gestionarOpciones = resultado => {
                              './resources/views/productos.html')
             
             .catch(error => {
-                console.error(`Houston, tenemos un problema: ${error}`)
                 Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a productos');
+                                'Problemas al acceder a productos', error);
             })
-        setTimeout(function(){
-            let botones = document.getElementsByClassName("boton-compra");
-            
-            for(let i = 0; i < botones.length; i++){
-                botones[i].addEventListener("click", function(){
-                    let id = this.id.split("-");
-                    
-                    let articulo = document.getElementById("articulo" + id[1]);
-                    
-                    let variableh1 = articulo.getElementsByTagName("h1");
-                    let variablep = articulo.getElementsByTagName("p");
-                    carritoCompra[id[1]] = [];
-                    carritoCompra[id[1]] ["nombre"] = variableh1[0].innerHTML;
-                    carritoCompra[id[1]] ["precio"] = variableh1[1].innerHTML;
-                    carritoCompra[id[1]] ["descripcion"] = variablep[0].innerHTML;
-
-                    Helpers.alertaCompra('#index-contenido', `${variableh1[0].innerHTML}`)
-                    
-                    
-                });
-                
-            }
-           
-        }, 1000);
         
-
     });
+};
 
-         
-    referencia = document.querySelector(
+let cargarCarrito = elemento => {
+    let referencia = document.querySelector(
         `${elemento} a[id='menu-carrito-compra']`
     );
     
@@ -107,31 +57,66 @@ let gestionarOpciones = resultado => {
         event.preventDefault();
         Helpers.cargarPagina('#index-contenido',
                              './resources/views/carritoCompras.html')
-            .catch(error => {
-                console.error(`Houston, tenemos un problema: ${error}`)
-                Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a carrito de compra');
-            })
-            setTimeout(function(){
-                let fila = '';
-                if(carritoCompra.length > 0){
-                    for (let c in carritoCompra){
-                        
-                        fila += `<tr>
-                                <td>1</td>
-                                <td class="w-1/3 text-left py-3 px-4">${carritoCompra[c] ["nombre"]}</td>
-                                <td class="w-1/3 text-left py-3 px-4">${carritoCompra[c]["descripcion"]}</td>
-                                <td class="w-1/3 text-left py-3 px-4">${carritoCompra[c]["precio"]}</td>
-                        </tr>`
-                   }
-
-                }
-                document.getElementById("tabla-compra").innerHTML = fila;
-               
-            }, 1000);
+        .then(() => {
+            Helpers.leerJSON('./data/productos.json').then(respuesta =>{
+                respuesta.forEach(elemento => {
+                    let producto = `
+                                <p>
+                                    ${elemento.referencia} -
+                                    $${elemento.precio}
+                                    <br>
+                                    ${elemento.resumen}
+                                </p>
+                                <br>`;
+                    document.querySelector('#carrito-lista').insertAdjacentHTML('beforeend', producto);
+                });
+            }).catch(error =>{
+                Helpers.alertar(
+                    '#index-contenido',
+                    'Problemas al acceder al listado de productos', error
+                );
+            });
+        }).catch(error => {
+            Helpers.alertar('#index-contenido', 
+                            'Problemas al acceder a carrito de compra', error);
+        });
     });
+};
+
+let cargarContactenos = elemento =>{
+    let referencia = document.querySelector(
+        `${elemento} a[id='menu-contactenos']`
+    );
     
-    referencia = document.querySelector(
+    referencia.addEventListener('click', (event) => {
+        event.preventDefault();
+        Helpers.cargarPagina('#index-contenido',
+                             './resources/views/contactenos.html')
+            .catch(error => {
+                Helpers.alertar('#index-contenido', 
+                                'Problemas al acceder a contáctenos'. error);
+            })
+    });
+};
+
+let cargarNosotros = elemento => {
+    let referencia = document.querySelector(
+        `${elemento} a[id='menu-nosotros']`
+    );
+    
+    referencia.addEventListener('click', (event) => {
+        event.preventDefault();
+        Helpers.cargarPagina('#index-contenido',
+                             './resources/views/nosotros.html')
+            .catch(error => {
+                Helpers.alertar('#index-contenido', 
+                                'Problemas al acceder a nosotros', error);
+            })
+    });
+};
+
+let cargarActualizarDatos = elemento => {
+    let referencia = document.querySelector(
         `${elemento} a[id='usuario-actualizar']`
     );
     
@@ -140,30 +125,26 @@ let gestionarOpciones = resultado => {
         Helpers.cargarPagina('#index-contenido',
                              './resources/views/actualizar.html')
             .catch(error => {
-                console.error(`Houston, tenemos un problema: ${error}`)
                 Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a nosotros');
-            })
-    });
-    
-    referencia = document.querySelector(
-        `${elemento} a[id='usuario-contraseña']`
-    );
-    
-    referencia.addEventListener('click', (event) => {
-        event.preventDefault();
-        Helpers.cargarPagina('#index-contenido',
-                             './resources/views/contraseña.html')
-            .catch(error => {
-                console.error(`Houston, tenemos un problema: ${error}`)
-                Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a nosotros');
+                                'Problemas al acceder a nosotros', error);
             })
     });
 };
 
 
+let cargarCambiarContraseña = elemento => {
+    let referencia = document.querySelector(
+        `${elemento} a[id='usuario-contraseña']`
+    );
 
-
-
+    referencia.addEventListener('click', (event) => {
+        event.preventDefault();
+        Helpers.cargarPagina('#index-contenido',
+                            './resources/views/contraseña.html')
+            .catch(error => {
+                Helpers.alertar('#index-contenido', 
+                                'Problemas al acceder a nosotros', error);
+            })
+    });
+}
 

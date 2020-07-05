@@ -8,11 +8,10 @@ export default class Helpers{
             return contenedor;
         }
 
-        throw `error ${respuesta.status} -
-        ${respuesta.statusText}`;
+        throw `error ${respuesta.status} - ${respuesta.statusText}`;
     }
 
-    static alertar (elemento, mensaje, atencion = '¡Santo cielo!'){
+    static alertar (elemento, mensaje, error = 'Error técnico sin reportar', atencion = '¡Santo cielo!'){
         document.querySelector(elemento).insertAdjacentHTML(`'afterbegin',
             <div id="alerta" class="bg-orange-100 border-l-4 border-orange-500
             tex-orange-700 p-4" role="alert"> 
@@ -21,6 +20,9 @@ export default class Helpers{
             </div>
         `);
         setTimeout(() => document.querySelector('#alerta').style.display = 'none', 3000);
+        if(error){
+            console.error(`Houston, tenemos un problema: ${error}`);
+        }
     }
     
     static alertaCompra(elemento, variable, mensaje = '¡Compra Exitosa!'){
@@ -31,7 +33,13 @@ export default class Helpers{
                         </div>`);
         setTimeout(() => document.querySelector('#alertaCompra').style.display = 'none', 1000);
         
-        
-        
+    }
+
+    static leerJSON = async (url, opciones = {}) => {
+        let respuesta = await fetch(url, opciones);
+        if(respuesta.ok){
+            return await respuesta.json();
+        }
+        throw new Error (`${respuesta.status}- ${respuesta.statusText}`);
     }
 }
