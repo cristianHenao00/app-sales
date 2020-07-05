@@ -4,6 +4,7 @@
 import { Prueba } from './prueba.js';
 
 import Helpers from './helpers.js'
+import CarritoDeCompras from './carrito-compras.js';
 
 document.addEventListener('DOMContentLoaded', event => {
     let promesa = Helpers.cargarPagina(
@@ -53,33 +54,10 @@ let cargarCarrito = elemento => {
         `${elemento} a[id='menu-carrito-compra']`
     );
     
-    referencia.addEventListener('click', (event) => {
+    referencia.addEventListener('click', async (event) => {
         event.preventDefault();
-        Helpers.cargarPagina('#index-contenido',
-                             './resources/views/carritoCompras.html')
-        .then(() => {
-            Helpers.leerJSON('./data/productos.json').then(respuesta =>{
-                respuesta.forEach(elemento => {
-                    let producto = `
-                                <p>
-                                    ${elemento.referencia} -
-                                    $${elemento.precio}
-                                    <br>
-                                    ${elemento.resumen}
-                                </p>
-                                <br>`;
-                    document.querySelector('#carrito-lista').insertAdjacentHTML('beforeend', producto);
-                });
-            }).catch(error =>{
-                Helpers.alertar(
-                    '#index-contenido',
-                    'Problemas al acceder al listado de productos', error
-                );
-            });
-        }).catch(error => {
-            Helpers.alertar('#index-contenido', 
-                            'Problemas al acceder a carrito de compra', error);
-        });
+        let carrito = await CarritoDeCompras.crear();
+        carrito.gestionarVentas();
     });
 };
 

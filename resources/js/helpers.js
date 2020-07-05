@@ -25,7 +25,7 @@ export default class Helpers{
         }
     }
     
-    static alertaCompra(elemento, variable, mensaje = '¡Compra Exitosa!'){
+    /*static alertaCompra(elemento, variable, mensaje = '¡Compra Exitosa!'){
         document.querySelector(elemento).insertAdjacentHTML('beforebegin',
                         `<div id="alertaCompra" class="bg-orange-100 border-t border-b border-orange-500 text-orange-700 px-4 py-3" role="alert">
                             <p class="font-bold">${mensaje}</p>
@@ -33,7 +33,7 @@ export default class Helpers{
                         </div>`);
         setTimeout(() => document.querySelector('#alertaCompra').style.display = 'none', 1000);
         
-    }
+    }*/
 
     static leerJSON = async (url, opciones = {}) => {
         let respuesta = await fetch(url, opciones);
