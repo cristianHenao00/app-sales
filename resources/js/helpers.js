@@ -25,21 +25,22 @@ export default class Helpers{
         }
     }
     
-    /*static alertaCompra(elemento, variable, mensaje = '¡Compra Exitosa!'){
-        document.querySelector(elemento).insertAdjacentHTML('beforebegin',
-                        `<div id="alertaCompra" class="bg-orange-100 border-t border-b border-orange-500 text-orange-700 px-4 py-3" role="alert">
-                            <p class="font-bold">${mensaje}</p>
-                            <p class="text-sm">Se añadio ${variable} al carrito de compras</p>
-                        </div>`);
-        setTimeout(() => document.querySelector('#alertaCompra').style.display = 'none', 1000);
-        
-    }*/
-
     static leerJSON = async (url, opciones = {}) => {
         let respuesta = await fetch(url, opciones);
         if(respuesta.ok){
             return await respuesta.json();
         }
         throw new Error (`${respuesta.status}- ${respuesta.statusText}`);
+    }
+
+    static getRandomInt = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    static existeElemento(idElemento) {
+        let elemento = document.querySelector(idElemento);
+        return (typeof(elemento) != 'undefined' && elemento != null);
     }
 }
