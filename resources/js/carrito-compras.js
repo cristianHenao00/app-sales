@@ -60,6 +60,10 @@ export default class CarritoDeCompras{
         let btnPagar = document.querySelector('#carrito-btnpagar')
         btnPagar.style.display = 'none'; //visible si hay elementos en el carrito
         btnPagar.addEventListener('click', event => this.procesarPago());
+        let btnVaciarCarrito = document.querySelector('#carrito-vaciar');
+        btnVaciarCarrito.style.display = 'none';
+        btnVaciarCarrito.addEventListener('click', event => this.vaciarCarrito());
+
     }
 
     agregarAlCarrito(indice){
@@ -75,13 +79,16 @@ export default class CarritoDeCompras{
         }
         this.#porComprar.push({
             indice,
+            articulo: this.#productos[indice],
             cantidad: 1
         });
         let elementosLista = '<option>1</option>';
         for (let i = 2; i <= disponibles; i++){
             elementosLista += `<option>${i}</option>`;
         }
+    
         let producto = `
+            
             <div id="carrito-venta-${indice}" class="border w-full rounded mt-5 flex p-4 justify-between items-center flex-wrap">
                 <div class="w-2/4">
                     <h3 class="text-lg font-medium">${this.#productos[indice].referencia}</h3>
@@ -107,11 +114,25 @@ export default class CarritoDeCompras{
             </div>`;
         document.querySelector('#carrito-elegidos').insertAdjacentHTML('beforeend', producto);
         document.querySelector('#carrito-btnpagar').style.display = '';
+        document.querySelector('#carrito-vaciar').style.display = '';
         document.querySelector(`#${idBtnEliminar}`).addEventListener('click', e =>{
             this.eliminarDelCarrito(e.target.dataset.indice);
         });
         
+        
     }
+
+    vaciarCarrito(){
+        let elemento = document.querySelector(`#carrito-elegidos`);
+        elemento.innerHTML = '';
+        this.#porComprar = []
+        if(this.#porComprar.length === 0){
+            document.querySelector('#carrito-btnpagar').style.display = 'none';
+            document.querySelector('#carrito-vaciar').style.display = 'none';
+        }
+        
+    }
+   
 
     eliminarDelCarrito(indice){
         let elemento = document.querySelector(`#carrito-venta-${indice}`);
@@ -125,22 +146,29 @@ export default class CarritoDeCompras{
         
         if(this.#porComprar.length === 0){
             document.querySelector('#carrito-btnpagar').style.display = 'none';
+            document.querySelector('#carrito-vaciar').style.display = 'none';
         }
     }
 
     procesarPago(){
-               
-        let valor = '0000000';
-        let iva = '0000000';
-        let totalPago = '0000000';
-
+        let subtotal = 0;
+        
+        let valor = this.#porComprar.forEach(producto =>{
+            subtotal += (producto.articulo.precio * producto.cantidad);
+            return subtotal
+        });
+        let iva = subtotal * (this.#descuento / 100);
+        let totalPago = iva + subtotal;
+       
+        
+        
         let pago = `
             <div class="bg-white rounded shadow p-2 w-full">
                 <div class="w-full bg-orange-100 px-8 py-6">
                     <h3 class="text-2x1 mt-4 font-bold">Resumen del pago</h3>
                     <div class="flex justify-between mt-3">
                         <div class="text-1 text-orange-900 font-bold">Valor</div>
-                        <div class="text-1 text-right font-bold">$${valor}</div>
+                        <div class="text-1 text-right font-bold">$${subtotal}</div>
                     </div>
                     <div class="flex justify-between mt-3">
                         <div class="text-1 text-orange-900 font-bold">
