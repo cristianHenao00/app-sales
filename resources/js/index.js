@@ -5,6 +5,7 @@ import { Prueba } from './prueba.js';
 
 import Helpers from './helpers.js'
 import CarritoDeCompras from './carrito-compras.js';
+import Productos from './productos.js';
 
 document.addEventListener('DOMContentLoaded', event => {
     let promesa = Helpers.cargarPagina(
@@ -36,16 +37,10 @@ let cargarProductos = elemento => {
         `${elemento} a[id='menu-productos']`
     );
     
-    referencia.addEventListener('click', (event) => {
+    referencia.addEventListener('click', async (event) => {
         event.preventDefault();
-        Helpers.cargarPagina('#index-contenido',
-                             './resources/views/productos.html')
-            
-            .catch(error => {
-                Helpers.alertar('#index-contenido', 
-                                'Problemas al acceder a productos', error);
-            })
-        
+        let producto = await Productos.crear();
+        producto.gestionarTabla();
     });
 };
 

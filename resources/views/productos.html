@@ -1,32 +1,23 @@
 <html>
     <body>
-        <div class="flex flex-col  sm:flex-row ">
-            <!-- component -->
-            <div id="articulo1" class="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden my-10">
-                <div class="px-4 py-2">
-                    <h1 class="text-gray-900 font-bold text-3xl uppercase">Nike intelligent</h1>
-                    <p class="text-gray-600 text-sm mt-1">Las zapatillas, con su capacidad de seguimiento de datos, ofrecen a los clientes una opción de privacidad. 
-                </div>
-                <img class="h-50 w-full object-cover mt-2" src="" alt="Nike Inteligentes">
-                <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
-                    <h1 class="text-gray-200 font-bold text-xl">$999</h1>
-                    <button id="btn-1" class="px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded boton-compra">Agregar al Carrito</button>
-                </div>
-            </div>
+        <!-- component -->
+        <div class="md:px-32 py-8 w-full">
+            <div class="shadow overflow-hidden rounded border-b border-gray-200">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-orange-400 text-white">
+                        <tr>
+                            <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Imagen</th>
+                            <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Nombre</th>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Cant. Disponible</th>
+                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Precio</th>
+                            <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Resumen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productos-tabla" class="text-gray-700 text-center">
 
-            <!-- component -->
-            <div id="articulo2" class="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden my-10 sm:ml-10">
-                <div class="px-4 py-2">
-                    <h1 class="text-gray-900 font-bold text-3xl uppercase">Nike Free</h1>
-                    <p class="text-gray-600 text-sm mt-1">Estos tenis Nike de la serie Free están cubiertos por malla, y tienen media suela de espuma de doble densidad en el talón para mejor amortiguación. 
-                </div>
-                <img class="h-50 w-full object-cover mt-2" src="" alt="Nike Free">
-                <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
-                    <h1 class="text-gray-200 font-bold text-xl">$129</h1>
-                    <button id="btn-2" class="px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded boton-compra">Agregar al Carrito</button>
-                </div>
+                    </tbody>
+                </table>
             </div>
-
         </div>
 
     </body>
