@@ -21,7 +21,7 @@
     "id": "PRD03",
     "referencia": "MacBook Pro",
     "disponible": 5,
-    "precio": 4250000,
+    "precio": 5000000,
     "resumen": "Procesador Intel® Core™ i7-101117 Processor 1.4 GHz (8M Cache, up to 3.9 GHz), sistema operativo Windows 10 Home 64 bits, memoria RAM: 4 GB, disco sólido 512 Gb., pantalla: 15.6\" pulgadas.",
     "detalles": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis consectetur nemo dolorum suscipit minima itaque numquam impedit odit incidunt quibusdam autem praesentium ullam repellat alias aperiam magnam totam, in vel.",
     "imagen": "portatil3.png"
@@ -30,7 +30,7 @@
     "id": "PRD04",
     "referencia": "TV SAMSUNG 70\"",
     "disponible": 7,
-    "precio": 850000,
+    "precio": 1000000,
     "resumen": "HDR+ justa los niveles de contraste multicapa, PurColour: Obtén una experiencia de visión más colorida. SmartThings, solo una aplicación para todo One Depth: contenido para ti en una sola pantalla UHD Dimming:Color, nitidez y contraste optimizados.",
     "detalles": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi veritatis reprehenderit hic fugiat, suscipit cum et quasi laborum exercitationem ipsa nam! Tenetur repellat aliquid dolore nisi rem optio, veniam nihil.",
     "imagen": "tv1.jpg"
@@ -39,7 +39,7 @@
     "id": "PRD05",
     "referencia": "TV LG 70\"",
     "disponible": 20,
-    "precio": 8500000,
+    "precio": 10000000,
     "resumen": "incluye un procesador que elimina el ruido y la borrosidad para crear colores y contrastes más vibrantes. Las imágenes de baja resolución se mejoran y se reproducen con una calidad cercana a 4K. El LG AI ThinQ inteligente te hace la vida aún más conveniente. *El reconocimiento de voz natural te permite ordenar y controlar tu ecosistema. ",
     "detalles": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim facere placeat nobis. Optio quasi velit illum. Id corporis provident sapiente nulla, rem cumque! Nesciunt ab tenetur officiis mollitia ratione tempora!",
     "imagen": "tv2.jpg"
