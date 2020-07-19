@@ -71,6 +71,7 @@ export default class CarritoDeCompras{
         
         let idBtnEliminar = `carrito-btneliminar-${indice}`;
         let disponibles = this.#productos[indice].disponible;
+        let idLista = `lstcantidad-${indice}`;
         let item = this.#porComprar.find(producto =>
             producto.indice === indice);
         if (item){
@@ -78,9 +79,10 @@ export default class CarritoDeCompras{
             document.querySelector(`#lstcantidad-${item.indice}`).focus();
             return
         }
+        document.querySelector('#carrito-confirmacion').innerHTML = '';
+
         this.#porComprar.push({
             indice,
-            articulo: this.#productos[indice],
             cantidad: 1
         });
         let elementosLista = '<option>1</option>';
@@ -107,7 +109,7 @@ export default class CarritoDeCompras{
                         ELIMINAR</button>
                     <label class="block uppercase tracking-wide text-gray-700" for="grid-first-name">
                         UNIDADES
-                        <select id="lstcantidad-${indice}" class="ml-3 text-sm bg-gray-400 border-gray-200 text-white-200 p-2 rounded leading-tight">
+                        <select id="${idLista}" data-indice="${indice}" class="ml-3 text-sm bg-gray-400 border-gray-200 text-white-200 p-2 rounded leading-tight">
                             ${elementosLista}
                         </select>
                     </label>
@@ -119,8 +121,14 @@ export default class CarritoDeCompras{
         document.querySelector(`#${idBtnEliminar}`).addEventListener('click', e =>{
             this.eliminarDelCarrito(e.target.dataset.indice);
         });
+        document.querySelector(`#${idLista}`).addEventListener('change', e => this.actualizarCantidadCompra(e));
         
-        
+    }
+
+    actualizarCantidadCompra(e){
+        let indice = e.target.dataset.indice;
+        let item = this.#porComprar.find(producto => producto.indice === indice);
+        item.cantidad = parseInt(e.target.value);
     }
 
     vaciarCarrito(){
@@ -152,16 +160,17 @@ export default class CarritoDeCompras{
     }
 
     procesarPago(){
-        let subtotal = 0;
+        let total = 0;
         
-        let valor = this.#porComprar.forEach(producto =>{
-            subtotal += (producto.articulo.precio * producto.cantidad);
-            return subtotal
+        this.#porComprar.forEach(producto =>{
+            const subtotal = this.#productos[producto.indice].precio * producto.cantidad;
+            this.#productos[producto.indice].disponible -= producto.cantidad;
+            total += subtotal;
         });
-        let iva = subtotal * (this.#descuento / 100);
-        let totalPago = iva + subtotal;
-       
-        
+        const iva = total * 0.19;
+        const descuento = total * (this.#descuento / 100);
+        const totalDescuento = total - descuento;
+        const totalPago = total - descuento + iva;
         
         let pago = `
             <div class="bg-white rounded shadow p-2 w-full">
@@ -169,7 +178,7 @@ export default class CarritoDeCompras{
                     <h3 class="text-2x1 mt-4 font-bold">Resumen del pago</h3>
                     <div class="flex justify-between mt-3">
                         <div class="text-1 text-orange-900 font-bold">Valor</div>
-                        <div class="text-1 text-right font-bold">$${subtotal}</div>
+                        <div class="text-1 text-right font-bold">$${totalDescuento}</div>
                     </div>
                     <div class="flex justify-between mt-3">
                         <div class="text-1 text-orange-900 font-bold">
@@ -200,6 +209,12 @@ export default class CarritoDeCompras{
 
         if (Helpers.existeElemento('#carrito-orden-envio')) return;
        
+        this.#porComprar = [];
+        document.querySelector('#carrito-btnpagar').style.display = 'none';
+        document.querySelector('#carrito-btnconfirmar').style.display = 'none';
+        document.querySelector('#carrito-vaciar').style.display = 'none';
+        document.querySelector('#carrito-elegidos').innerHTML = '';
+
         let nroOrden = Helpers.getRandomInt(10000, 9999999);
 
         let confirmacion = `
@@ -222,14 +237,7 @@ export default class CarritoDeCompras{
                      alt="" class="w-24">
             </div>
         `;
-        let stock = 0;
-        let tmp = this.#porComprar.forEach(producto =>{
-            stock = (producto.articulo.disponible - producto.cantidad);
-            this.#productos.disponible = stock
-            console.log(this.#productos.disponible)
-            return stock
-        });
-        
+              
 
         document.querySelector('#carrito-confirmacion')
            .insertAdjacentHTML('beforeend', confirmacion);
@@ -237,31 +245,31 @@ export default class CarritoDeCompras{
 
     carrusel(){
         let slider = `
-                <div class="carousel relative shadow-2xl bg-white">
+                <div class="carousel shadow-2xl bg-whte">
                     <div class="carousel-inner relative overflow-hidden w-full">
                         <!--Slide 1-->
                         <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
-                        <div class="carousel-item absolute opacity-0" style="height:30vh;">
+                        <div class="carousel-item absolute opacity-0">
                             <img src="./resources/assets/images/promo1.jpg" alt="" class="h-64 w-full">
                         </div>
-                        <label for="carousel-3" class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
-                        <label for="carousel-2" class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+                        <label for="carousel-3" class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-orange hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-2" class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-orange hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
                         
                         <!--Slide 2-->
                         <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
-                        <div class="carousel-item absolute opacity-0" style="height:30vh;">
+                        <div class="carousel-item absolute opacity-0">
                             <img src="./resources/assets/images/promo2.jpg" alt="" class="h-64 w-full">
                         </div>
-                        <label for="carousel-1" class="prev control-2 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
-                        <label for="carousel-3" class="next control-2 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label> 
+                        <label for="carousel-1" class="prev control-2 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-orange hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-3" class="next control-2 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-orange hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label> 
                         
                         <!--Slide 3-->
                         <input class="carousel-open" type="radio" id="carousel-3" name="carousel" aria-hidden="true" hidden="">
-                        <div class="carousel-item absolute opacity-0" style="height:30vh;">
+                        <div class="carousel-item absolute opacity-0">
                             <img src="./resources/assets/images/promo3.jpg" alt="" class="h-64 w-full">
                         </div>
-                        <label for="carousel-2" class="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
-                        <label for="carousel-1" class="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+                        <label for="carousel-2" class="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-orange hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-1" class="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-orange hover:bg-orange-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
                 
                         <!-- Add additional indicators for each slide-->
                         <ol class="carousel-indicators">
@@ -279,7 +287,7 @@ export default class CarritoDeCompras{
                     </div>
                 </div>
         `
-        document.querySelector('#carrito-carrusel').insertAdjacentHTML('afterbegin', slider);
+        document.querySelector('#carrito-carrusel').insertAdjacentHTML('beforeend', slider);
                
     }
 
@@ -293,8 +301,8 @@ export default class CarritoDeCompras{
                     descuento</b> en este pedido </div>
         `
         let cupon1= `
-            <img src="https://svgsilh.com/svg/151889.svg" class="w-10 block pr-2">
-            <div class="text-sm">Felicitaciones llego al mejor sitio de ventas online</div>
+            <img src="https://svgsilh.com/svg/2789965.svg" class="w-10 block pr-2">
+            <div class="text-sm">Bienvenido llego al mejor sitio de ventas online</div>
         `
 
         if(cuponAleatorio == 3 || cuponAleatorio == 6 || cuponAleatorio ==9){

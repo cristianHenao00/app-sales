@@ -41,7 +41,7 @@ export  default class Productos{
                     <td class="text-left py-3 px-4">${producto.precio}</td>
                     <td class="text-left py-3 px-4">
                         <p>${producto.resumen}
-                            <a id="${itemModal}"  data-indice="${indice}" class="text-orange-400 hover:text-orange-700" href="#">Ver más...</a>
+                            <a id="${itemModal}"  data-indice="${indice}" class="text-orange-400 hover:text-orange-700">Ver más...</a>
                         </p>
                     </td>
                 </tr>
@@ -55,8 +55,8 @@ export  default class Productos{
 
     desplegarModal(indice){
         let modalProducto = `
-            <div id="modal-producto" class="h-screen w-full flex flex-col items-center justify-center bg-teal-lightest font-sans">
-                <div v-if="modal.visible" @click.self="modal.visible = false" class="h-screen w-full absolute flex items-center justify-center bg-modal">
+            <div id="modal-producto" class="h-screen w-full flex flex-col items-top bg-teal-lightest">
+                <div v-if="modal.visible" @click.self="modal.visible = false" class="h-screen w-full flex items-start justify-center bg-modal">
                     <div class="bg-gray-100 rounded shadow p-8 m-4 max-w-xs max-h-full text-center overflow-y-scroll">
                         <div class="mb-4">
                             <h1 class="text-xl mt-4 font-bold
@@ -72,12 +72,14 @@ export  default class Productos{
                 </div>
             </div>
         `;
-        document.querySelector(`#producto-tabla-${indice}`).insertAdjacentHTML('afterend', modalProducto);
+        document.querySelector('#tabla-contenedor').insertAdjacentHTML('afterbegin', modalProducto);
+        document.querySelector('#tabla-contenido').style.display= 'none';
         document.querySelector('#modal-volver').addEventListener('click', event => this.ocultarModal())
     }
 
     ocultarModal(){
         document.querySelector('#modal-producto').style.display = 'none';
+        document.querySelector('#tabla-contenido').style.display= 'block';
     }
 
     
