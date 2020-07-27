@@ -244,6 +244,7 @@ export default class CarritoDeCompras{
     }
 
     carrusel(){
+        
         let slider = `
                 <div class="carousel shadow-2xl bg-whte">
                     <div class="carousel-inner relative overflow-hidden w-full">

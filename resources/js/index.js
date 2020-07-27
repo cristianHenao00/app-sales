@@ -3,11 +3,12 @@
 
 import { Prueba } from './prueba.js';
 
-import Helpers from './helpers.js'
+import Helpers from './helpers.js';
+import Modal from './modal.js';
 import CarritoDeCompras from './carrito-compras.js';
 import Productos from './productos.js';
 
-document.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded', async event => {
     let promesa = Helpers.cargarPagina(
         '#index-header',
         './resources/views/menu.html'
@@ -18,6 +19,12 @@ document.addEventListener('DOMContentLoaded', event => {
         Helpers.alertar('#index-contenido', 
             'Problemas al intentar accder al menu principal', error);
     }); 
+
+    await Modal.crear();
+    // Modal.desplegar({
+    //    titulo:'Bienvenido',
+    //    contenido: 'Ahora puede hacer sus compras aquí.'
+    // });
 
 });
 

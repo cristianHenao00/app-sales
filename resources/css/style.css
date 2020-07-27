@@ -44,5 +44,14 @@ body {
     color: #d17409;  /*Set to match the Tailwind colour you want the active one to be */
 }
 
+.modal {
+    transition: opacity 0.25s ease;
+}
+  
+body.modal-active {
+    overflow-x: hidden;
+    overflow-y: visible !important;
+}
+
 
 
