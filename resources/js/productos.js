@@ -3,6 +3,7 @@ import Modal from './modal.js';
 
 export  default class Productos{
     #productos;
+    #formEdicion;
 
 
     constructor(){
@@ -15,6 +16,8 @@ export  default class Productos{
         await Helpers.cargarPagina(
             '#index-contenido',
             './resources/views/productos.html'
+        ).then(()=>
+                instancia.#formEdicion = document.querySelector('#bloque-edicion').innerHTML
         ).catch(error => {
                 Helpers.alertar('#index-contenido', 
                 'Problemas al acceder a productos', error);
@@ -78,8 +81,8 @@ export  default class Productos{
                 {
                     id: 'btn-cerrar-infoproductos',
                     titulo:'Cerrar',
-                    estilo: 'px-4 bg-red-400 p-3 rounded-lg text-white hover:bg-red-500',
-                    callBack: this.cualquierCosa
+                    estilo: 'modal-close px-4 bg-red-400 p-3 rounded-lg text-white hover:bg-red-500',
+                    
                 },
                 
             ]
@@ -94,89 +97,7 @@ export  default class Productos{
         event.preventDefault();
         Modal.desplegar({
             titulo: 'Editar Producto',
-            contenido: `
-                <div class="container">
-                    <form class="border-t border-b border-gray-400">
-                        <div class="flex mt-4">
-                            
-                            <div class="w-1/5 mr-3">
-                                <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                    identificador
-                                </label>
-                                <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                    type="text" value="${this.#productos[i].id}">
-                                    
-                               
-                            </div>
-                            <div class="w-3/5 ml-3 mr-3">
-                                <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                    referencia
-                                </label>
-                                <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                    type="text" value="${this.#productos[i].referencia}">
-                                    
-                            </div>
-                           
-                            <div class="w-1/5 ml-3">
-                                <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                    disponible
-                                </label>
-                                <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                    type="text" value="${this.#productos[i].disponible}">
-                                    
-                            </div>
-                  
-                        </div>   
-                        
-                        <div class="w-full mt-4">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                resumen de características
-                            </label>
-                            <textarea class="rounded-md leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white">
-                                ${this.#productos[i].resumen}
-                            </textarea>
-                        </div>
-
-                        <div class="w-full mt-4">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                                detalles de las características
-                            </label>
-                            <textarea class="rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white">
-                                ${this.#productos[i].detalles}
-                            </textarea>
-                        </div>
-
-                        <div class="flex mt-4 mb-4">
-                            <div class="w-2/6 mr-2">
-                                    <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                        precio
-                                    </label>
-                                    <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                        type="text" value="${this.#productos[i].precio}">
-                            </div>
-                            
-                            <div class="w-1/2 mr-2 ml-2">
-                                    <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                        imagen del producto
-                                    </label>
-                                    <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                        type="text" value="${this.#productos[i].imagen}">
-                            </div>
-
-                            <div>
-                                    <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                        subir imagen
-                                    </label>
-                                    <button class="w-full px-4 bg-orange-400 p-3 rounded-lg text-white hover:bg-orange-500 fa fa-arrow-up">
-                                    </button>
-                            </div>
-
-
-                        </div>
-
-                    </form>
-                </div>
-            `,
+            contenido: this.formularioEdicion(i),
             botones: [
                 {
                     id: 'btn-guardar-editor',
@@ -187,8 +108,8 @@ export  default class Productos{
                 {
                     id: 'btn-cerrar-editor',
                     titulo:'Cerrar',
-                    estilo:'px-4 bg-red-400 p-3 rounded-lg text-white hover:bg-red-500',
-                    callBack: this.cualquierCosa
+                    estilo: 'modal-close px-4 bg-red-400 p-3 rounded-lg text-white hover:bg-red-500'
+                    
                 }
             ]
         });
@@ -203,108 +124,38 @@ export  default class Productos{
         event.preventDefault();
         Modal.desplegar({
             titulo: 'Agregar producto',
-            contenido:`
-            <div class="container">
-                <form class="border-t border-b border-gray-400">
-                    <div class="flex mt-4">
-                        
-                        <div class="w-1/5 mr-3">
-                            <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                identificador
-                            </label>
-                            <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                type="text">
-                                
-                           
-                        </div>
-                        <div class="w-3/5 ml-3 mr-3">
-                            <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                referencia
-                            </label>
-                            <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                type="text">
-                                
-                        </div>
-                       
-                        <div class="w-1/5 ml-3">
-                            <label class="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                disponible
-                            </label>
-                            <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                type="text">
-                                
-                        </div>
-              
-                    </div>   
+            contenido: this.formularioAdicion(),
+            
+            botones: [
+                {
+                    id: 'btn-guardar-editor',
+                    titulo:'Guardar',
+                    estilo: 'mr-3 px-4 bg-green-400 p-3 rounded-lg text-white hover:bg-green-500',
+                    callBack: this.cualquierCosa
+                },
+                {
+                    id: 'btn-cerrar-editor',
+                    titulo:'Cerrar',
+                    estilo:'modal-close px-4 bg-red-400 p-3 rounded-lg text-white hover:bg-red-500',
                     
-                    <div class="w-full mt-4">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            resumen de características
-                        </label>
-                        <textarea class="rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white">
-                        </textarea>
-                    </div>
-
-                    <div class="w-full mt-4">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            detalles de las características
-                        </label>
-                        <textarea class="rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white">
-                        </textarea>
-                    </div>
-
-                    <div class="flex mt-4 mb-4">
-                        <div class="w-2/6 mr-2">
-                                <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                    precio
-                                </label>
-                                <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                    type="text">
-                        </div>
-                        
-                        <div class="w-1/2 mr-2 ml-2">
-                                <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                    imagen del producto
-                                </label>
-                                <input class="appearance-none block w-full shadow-inner rounded-md py-3 px-4 leading-tight border border-gray-400 focus:outline-none  focus:border-gray-500"
-                                    type="text">
-                        </div>
-
-                        <div>
-                                <label class="block uppercase w-full tracking-wide text-gray-700 font-bold mb-2 text-xs">
-                                    subir imagen
-                                </label>
-                                <button class="w-full px-4 bg-orange-400 p-3 rounded-lg text-white hover:bg-orange-500 fa fa-arrow-up">
-                                </button>
-                        </div>
-
-
-                    </div>
-
-                </form>
-            </div>
-        `,
-        botones: [
-            {
-                id: 'btn-guardar-editor',
-                titulo:'Guardar',
-                estilo: 'mr-3 px-4 bg-green-400 p-3 rounded-lg text-white hover:bg-green-500',
-                callBack: this.cualquierCosa
-            },
-            {
-                id: 'btn-cerrar-editor',
-                titulo:'Cerrar',
-                estilo:'px-4 bg-red-400 p-3 rounded-lg text-white hover:bg-red-500',
-                callBack: this.cualquierCosa
-            }
+                }
         ]
         })
     }
+       
+    formularioAdicion(){
+        this.#formEdicion = this.#formEdicion.replace('productos-edicion', 'productos-adicion');
+        const busqueda = ['$identificador', '$referencia', '$disponible', '$precio', '$resumen', '$caracteristicas', '$imagen'];
+        const reemplazo = ['', '', '', '', '', '', ''];
+        return this.#formEdicion.replaceArray(busqueda, reemplazo);
+    }
 
-
-   
-
-
+    formularioEdicion(i){
+        this.#formEdicion = this.#formEdicion.replace('productos-edicion', 'productos-adicion');
+        const busqueda = ['$identificador', '$referencia', '$disponible', '$precio', '$resumen', '$caracteristicas', '$imagen'];
+        const reemplazo = Object.values(this.#productos[i]);
+        return this.#formEdicion.replaceArray(busqueda, reemplazo);
+    }
 
     
 }

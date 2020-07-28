@@ -43,4 +43,17 @@ export default class Helpers{
         let elemento = document.querySelector(idElemento);
         return (typeof(elemento) != 'undefined' && elemento != null);
     }
+
+    
+}
+
+/*
+Reemplaza un array de elementos buscados (find) por los elementos dados en replace
+*/
+String.prototype.replaceArray = function (find, replace) {
+    let replaceString = this;
+    for(let i =0; i< find.length; i++){
+        replaceString = replaceString.replace(find[i], replace[i]);
+    }
+    return replaceString;
 }
