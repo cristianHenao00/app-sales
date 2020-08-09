@@ -153,8 +153,7 @@ export  default class Productos{
     
     actualizaNombre(e){
         let nombre = document.getElementsByName('file')[1].files[0].name;
-        console.log(nombre)
-        // document.getElementsByName('txtimagen')[1].value = nombre;
+        document.getElementsByName('txtimagen')[1].value = nombre;
     }
 
     agregarNuevoProducto(){
