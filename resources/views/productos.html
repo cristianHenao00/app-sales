@@ -32,7 +32,7 @@
         <!-- el formulario de edición de productos -->
         <div id="bloque-edicion" class="hidden">
 
-            <form id="productos-edicion" class="mt-2 mb-4 border-t border-b border-gray-400 pt-4">
+            <form id="productos-edicion" class="mt-2 mb-4 border-t border-b border-gray-400 pt-4" method="GET">
 
                 <div class="flex items-center justify-between mt-2">
 
@@ -40,24 +40,24 @@
                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                             Identificador
                         </label>
-                        <input id="identificador"
-                            class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                        <input id="identificador" name="identificador"
+                            class='id appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='text' required value="$identificador">
                     </div>
 
                     <div class='w-full md:w-2/4 px-3 mb-2'>
                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-text-1'>
                             Referencia</label>
-                        <input id="referencia"
-                            class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                        <input id="referencia" name="referencia"
+                            class='refer appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             id='grid-text-1' type='email' required value="$referencia">
                     </div>
 
                     <div class='w-full md:w-1/4 px-3 mb-2'>
-                        <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
+                        <label class='dispo block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                             Disponible
                         </label>
-                        <input id="disponible"
+                        <input id="disponible" name="disponible"
                             class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='text' required value="$disponible">
                     </div>
@@ -70,8 +70,8 @@
                         <div class='w-full md:w-full px-3 mb-4'>
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                                 Resumen de características</label>
-                            <textarea id="resumen-caracteristicas"
-                                class='bg-gray-100 rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 text-gray-700 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'
+                            <textarea id="resumen-caracteristicas" name="resumen"
+                                class='resumen bg-gray-100 rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 text-gray-700 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'
                                 required>$resumen</textarea>
                         </div>
                     </div>
@@ -80,8 +80,8 @@
                         <div class='w-full md:w-full px-3 mb-4'>
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                                 Detalle de las características</label>
-                            <textarea id="detalle-caracteristicas"
-                                class='bg-gray-100 rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 text-gray-700 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'
+                            <textarea id="detalle-caracteristicas" name="caracteristicas"
+                                class='carac bg-gray-100 rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 text-gray-700 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'
                                 required>$caracteristicas</textarea>
                         </div>
                     </div>
@@ -94,8 +94,8 @@
                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                             Precio
                         </label>
-                        <input id="precio"
-                            class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                        <input id="precio" name="precio"
+                            class='prec appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='text' required value="$precio">
                     </div>
 
@@ -103,8 +103,8 @@
                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
                             Imagen del producto
                         </label>
-                        <input id="txtimagen"
-                            class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
+                        <input id="txtimagen" name="txtimagen"
+                            class='img appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500'
                             type='text' required value="$imagen">
                     </div>
 
@@ -113,10 +113,10 @@
                             Subir imagen
                         </label>
                         <label
-                            class="rounded-md flex flex-col items-center px-4 py-1 bg-teal-200 text-blue rounded-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-blue">
+                            class="rounded-md flex flex-col items-center px-4 py-1 bg-orange-300 text-orange rounded-lg tracking-wide uppercase border border-orange cursor-pointer hover:bg-orange hover:text-orange">
                             <span class="mt-2 font-bold text-gray-700 leading-normal"><i class="fa fa-upload"
                                 aria-hidden="true"></i></span>
-                            <input id="btnimagen" type='file' class="hidden" />
+                            <input id="btnimagen" name="file" type='file' class="hidden" accept="image/*">
                         </label>
                     </div>
 

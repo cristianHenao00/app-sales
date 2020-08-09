@@ -28,14 +28,17 @@ export default class Modal{
             footer.insertAdjacentHTML('beforeend', b);
             let btn = document.querySelector(`#${boton.id}`);
             if(typeof boton.callBack === 'function'){
-                btn.addEventListener('click', e => boton.callBack(e));
+                btn.addEventListener('click', e => (boton.callBack(e)));
+                
             }
+           
             
         });
         Modal.asignarEventos();
         Modal.toggle();
     }
 
+    
     static asignarEventos(){
         const overlay = document.querySelector('.modal-overlay');
         overlay.addEventListener('click', Modal.toggle);
@@ -67,3 +70,4 @@ export default class Modal{
         body.classList.toggle('modal-active');
     }
 }
+

@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async event => {
     }); 
 
     await Modal.crear();
+    
     // Modal.desplegar({
     //    titulo:'Bienvenido',
     //    contenido: 'Ahora puede hacer sus compras aquí.'
